@@ -1,11 +1,12 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/')({
   component: RouteComponent,
 })
 
 function RouteComponent() {
-  return (<div>
-    Go to <Link to="/feedback">Feedback</Link>
-  </div>)
+  return (
+    <div>
+      Hayo lo mau ngapain ke sini?
+    </div>)
 }
