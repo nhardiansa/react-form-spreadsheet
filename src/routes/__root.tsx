@@ -1,3 +1,4 @@
+import { Toaster } from '@/components/ui/sonner'
 import { Outlet, createRootRoute } from '@tanstack/react-router'
 
 export const Route = createRootRoute({
@@ -6,6 +7,9 @@ export const Route = createRootRoute({
 
 function RootComponent() {
   return (
-    <Outlet />
+    <>
+      <Outlet />
+      <Toaster />
+    </>
   )
 }
