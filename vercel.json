@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/feedback/(.*)",
+      "destination": "/feedback/$1"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/"
+    }
+  ]
+}
