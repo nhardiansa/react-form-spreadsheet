@@ -30,8 +30,6 @@ function RouteComponent() {
 
     const docs = snapshot.docs.map((doc) => ({ id: doc.id, ...(doc.data() as FeedbackData) } as FeedbackResponse));
 
-    console.log(docs);
-
     setFeedbacks(docs);
     // setLastDoc(snapshot.docs[snapshot.docs.length - 1]);
     // setLoading(false);
@@ -122,6 +120,22 @@ function StarRating({ rating, max = 5 }: { rating: number; max?: number }) {
 }
 
 function averageRating(ratings: number[]) {
-  const total = ratings.reduce((acc, rating) => acc + rating, 0);
-  return ratings.length === 0 ? 0 : total / ratings.length;
+
+  // convert to scale of 1-4 to 0-1
+  const total: number[] = ratings.map(rating => {
+    if (rating === 1) return 0;
+    if (rating === 2) return 0.33;
+    if (rating === 3) return 0.66;
+    if (rating === 4) return 1;
+    return 0;
+  });
+
+  // calculate average
+  const sum = total.reduce((acc, curr) => acc + curr, 0);
+  const avg = sum / ratings.length;
+
+  // convert back to scale of 1-5
+  const result = avg * 5;
+
+  return Math.round(result);
 }
