@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { db } from "@/lib/firebase"
 import { collection, addDoc } from "firebase/firestore"
 import { toast } from "sonner"
+import { summarizeText } from "@/lib/summarizeWithGemini"
 
 type RatingValue = 1 | 2 | 3 | 4
 
@@ -29,6 +30,7 @@ export interface FeedbackData {
   futureClassRating: RatingValue | null
   additionalFeedback: string
   createdAt: string
+  title?: string
 }
 
 export default function FeedbackForm() {
@@ -44,7 +46,7 @@ export default function FeedbackForm() {
   // const [isSubmitted, setIsSubmitted] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     // Handle form submission
 
@@ -61,6 +63,18 @@ export default function FeedbackForm() {
         day: "numeric",
         year: "numeric",
       })
+    }
+
+
+    try {
+      // 1️⃣ Ringkas teks pakai Gemini
+      const summaryText = await summarizeText(finalData.additionalFeedback);
+      finalData.title = summaryText;
+    } catch (error) {
+      console.error("Error generating summary:", error);
+      finalData.title = "Terjadi kesalahan saat membuat judul.";
+    } finally {
+      setIsLoading(false);
     }
 
     addDoc(collection(db, COLECTION_ID), finalData).then((e) => {
@@ -84,9 +98,8 @@ export default function FeedbackForm() {
         futureClassRating: null,
         additionalFeedback: "",
       })
-    }).catch((e) => {
+    }).catch(() => {
 
-      console.error(e)
       toast.error("Terjadi kesalahan saat mengirim feedback. Mohon coba lagi.", {
         position: "top-center",
         style: {

@@ -89,7 +89,7 @@ function FeedbackCard({ feedback }: { feedback: FeedbackData }) {
       <CardContent className="">
         {/* <h3 className="font-semibold text-gray-900 mb-2">{feedback.title}</h3> */}
         <h3 className="font-semibold text-gray-900 mb-2">
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+          {feedback.title || "Tanpa Judul"}
         </h3>
         <div className="flex items-center justify-between mb-4">
           <p className="text-sm text-gray-600">by Anonymous</p>
