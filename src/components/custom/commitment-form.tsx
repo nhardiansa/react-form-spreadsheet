@@ -189,7 +189,7 @@ export default function CommitmentForm() {
                   onCheckedChange={() => handleCheckboxChange("mediaUmat")}
                 />
                 <label htmlFor="mediaUmat" className="text-sm text-slate-700 cursor-pointer">
-                  <span className="font-bold">Media Umat</span> - Rp. 17.000/2 edisi
+                  <span className="font-bold">Media Umat</span> - Rp. 34.000/2 edisi
                 </label>
               </div>
               <div className="flex items-center gap-3">
