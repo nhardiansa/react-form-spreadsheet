@@ -4,6 +4,10 @@
     {
       "source": "/iltizamat/(.*)",
       "destination": "/iltizamat/$1"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/"
     }
   ]
 }
