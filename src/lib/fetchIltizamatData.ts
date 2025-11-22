@@ -10,8 +10,14 @@ export const sendFormData = async (data: {
   message: string;
   response?: Response;
 }> => {
-  const url =
-    "https://script.google.com/macros/s/AKfycbw6ehDbWNOK-sUiFQ_ffbG18V236QAK6G5jsYkdBI1hz-J8C4G9zy08lJd9aqhrS-4Z7w/exec";
+  const url = import.meta.env.VITE_GOOGLE_APPS_SCRIPT_URL;
+
+  if (!url) {
+    return {
+      status: false,
+      message: "Konfigurasi URL tidak ditemukan",
+    };
+  }
 
   try {
     const response = await fetch(url, {

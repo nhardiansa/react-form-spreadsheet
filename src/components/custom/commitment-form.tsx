@@ -224,7 +224,7 @@ export default function CommitmentForm() {
           {/* Success Message */}
           {submitMessage.message && (
             <div className={`p-4 text-center ${submitMessage.status ? 'bg-emerald-50 border border-emerald-200' : 'bg-red-50 border border-red-200'} rounded-lg`}>
-              <p className="text-emerald-700 font-medium">{submitMessage.message}</p>
+              <p className={`text-sm ${submitMessage.status ? 'text-emerald-600' : 'text-red-600'} font-medium`}>{submitMessage.message}</p>
             </div>
           )}
         </form>
