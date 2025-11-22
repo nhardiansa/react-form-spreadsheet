@@ -147,7 +147,7 @@ export default function CommitmentForm() {
                 id="monthlyCommitment"
                 name="monthlyCommitment"
                 type="number"
-                placeholder="10000"
+                placeholder="60000"
                 value={formData.monthlyCommitment}
                 onChange={handleInputChange}
                 className="w-full h-11 bg-slate-50 border-slate-200 text-slate-900 placeholder:text-slate-400 pl-10"
