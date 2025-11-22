@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { db } from "@/lib/firebase"
 import { collection, addDoc } from "firebase/firestore"
 import { toast } from "sonner"
-import { summarizeText } from "@/lib/summarizeWithGemini"
+// import { summarizeText } from "@/lib/summarizeWithGemini"
 
 type RatingValue = 1 | 2 | 3 | 4
 
@@ -68,7 +68,8 @@ export default function FeedbackForm() {
 
     try {
       // 1️⃣ Ringkas teks pakai Gemini
-      const summaryText = await summarizeText(finalData.additionalFeedback);
+      // const summaryText = await summarizeText(finalData.additionalFeedback);
+      const summaryText = "asd";
       finalData.title = summaryText;
     } catch (error) {
       console.error("Error generating summary:", error);

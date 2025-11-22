@@ -8,7 +8,7 @@ function RouteComponent() {
   return (
     <div className='flex flex-col items-center justify-center h-screen gap-4'>
       <h1 className='font-bold text-3xl'>
-        Hayo lo mau ngapain ke sini?
+        Silahkan kunjungi <code className='bg-slate-200 px-2 py-1 rounded-md'>/iltizamat</code> untuk melihat form komitmen.
       </h1>
     </div>)
 }

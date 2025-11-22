@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ReviewsRouteImport } from './routes/reviews'
+import { Route as IltizamatRouteImport } from './routes/iltizamat'
 import { Route as FeedbackRouteImport } from './routes/feedback'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
@@ -17,6 +18,11 @@ import { Route as IndexRouteImport } from './routes/index'
 const ReviewsRoute = ReviewsRouteImport.update({
   id: '/reviews',
   path: '/reviews',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IltizamatRoute = IltizamatRouteImport.update({
+  id: '/iltizamat',
+  path: '/iltizamat',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FeedbackRoute = FeedbackRouteImport.update({
@@ -39,12 +45,14 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/feedback': typeof FeedbackRoute
+  '/iltizamat': typeof IltizamatRoute
   '/reviews': typeof ReviewsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/feedback': typeof FeedbackRoute
+  '/iltizamat': typeof IltizamatRoute
   '/reviews': typeof ReviewsRoute
 }
 export interface FileRoutesById {
@@ -52,20 +60,22 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/feedback': typeof FeedbackRoute
+  '/iltizamat': typeof IltizamatRoute
   '/reviews': typeof ReviewsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/feedback' | '/reviews'
+  fullPaths: '/' | '/about' | '/feedback' | '/iltizamat' | '/reviews'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/feedback' | '/reviews'
-  id: '__root__' | '/' | '/about' | '/feedback' | '/reviews'
+  to: '/' | '/about' | '/feedback' | '/iltizamat' | '/reviews'
+  id: '__root__' | '/' | '/about' | '/feedback' | '/iltizamat' | '/reviews'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   FeedbackRoute: typeof FeedbackRoute
+  IltizamatRoute: typeof IltizamatRoute
   ReviewsRoute: typeof ReviewsRoute
 }
 
@@ -76,6 +86,13 @@ declare module '@tanstack/react-router' {
       path: '/reviews'
       fullPath: '/reviews'
       preLoaderRoute: typeof ReviewsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/iltizamat': {
+      id: '/iltizamat'
+      path: '/iltizamat'
+      fullPath: '/iltizamat'
+      preLoaderRoute: typeof IltizamatRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/feedback': {
@@ -106,6 +123,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   FeedbackRoute: FeedbackRoute,
+  IltizamatRoute: IltizamatRoute,
   ReviewsRoute: ReviewsRoute,
 }
 export const routeTree = rootRouteImport
