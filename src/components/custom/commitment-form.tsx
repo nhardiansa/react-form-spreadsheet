@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Checkbox } from "@/components/ui/checkbox"
 import { sendFormData } from "@/lib/fetchIltizamatData"
+import { useGlobaAlertDialog } from "@/lib/providers/global-alert-dialog-provider"
 
 export default function CommitmentForm() {
   const [formData, setFormData] = useState({
@@ -17,10 +18,8 @@ export default function CommitmentForm() {
   })
 
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [submitMessage, setSubmitMessage] = useState({
-    status: false,
-    message: "",
-  })
+
+  const { showDialog } = useGlobaAlertDialog();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -43,10 +42,8 @@ export default function CommitmentForm() {
     return new Intl.NumberFormat("id-ID").format(Number.parseInt(numValue))
   }
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+  const handleSendData = async () => {
     setIsSubmitting(true)
-    setSubmitMessage({ status: false, message: "" })
 
     try {
       const response = await sendFormData({
@@ -60,12 +57,12 @@ export default function CommitmentForm() {
 
       console.log("Response from sendFormData:", response)
 
-      setSubmitMessage({
-        status: true,
-        message: "Komitmen Anda telah dikirim!",
-      })
+      if (!response.status) {
+        throw new Error(response.message || "Failed to submit form data")
+      }
+
       setIsSubmitting(false)
-      console.log("Form submitted:", formData)
+
       // Reset form
       setFormData({
         fullName: "",
@@ -76,15 +73,45 @@ export default function CommitmentForm() {
         totalCommitment: 0,
       })
 
+      showDialog({
+        title: (
+          <span className="text-emerald-600">
+            Berhasil Mengirim Data
+          </span>
+        ),
+        description: "Data komitmen Anda telah berhasil dikirim. Terima kasih atas dukungan Anda!",
+        cancelText: "Tutup",
+      })
+
     } catch (error) {
       console.error("Error submitting form:", error)
-      setSubmitMessage({
-        status: false,
-        message: "Terjadi kesalahan saat mengirim komitmen. Silakan coba lagi.",
+      showDialog({
+        title: (
+          <span className="text-red-600">
+            Gagal Mengirim Data
+          </span>
+        ),
+        description: "Terjadi kesalahan saat mengirim data Anda. Silakan coba lagi nanti.",
+        cancelText: "Tutup",
       })
     } finally {
       setIsSubmitting(false)
     }
+  }
+
+  const handleConfirm = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    showDialog({
+      title: "Konfirmasi Pengiriman",
+      description: "Apakah Anda yakin ingin mengirim komitmen ini?",
+      confirmText: "Ya, Kirim",
+      cancelText: "Batal",
+      onConfirm: () => {
+        handleSendData();
+      },
+    })
+
   }
 
   useEffect(() => {
@@ -117,7 +144,7 @@ export default function CommitmentForm() {
       </div>
 
       <div className="bg-white rounded-lg shadow-sm p-6 md:p-8">
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleConfirm} className="space-y-6">
 
           {/* Full Name Field */}
           <div>
@@ -220,13 +247,6 @@ export default function CommitmentForm() {
           >
             {isSubmitting ? "Mengirim..." : "Kirim Komitmen"}
           </Button>
-
-          {/* Success Message */}
-          {submitMessage.message && (
-            <div className={`p-4 text-center ${submitMessage.status ? 'bg-emerald-50 border border-emerald-200' : 'bg-red-50 border border-red-200'} rounded-lg`}>
-              <p className={`text-sm ${submitMessage.status ? 'text-emerald-600' : 'text-red-600'} font-medium`}>{submitMessage.message}</p>
-            </div>
-          )}
         </form>
       </div>
     </div>
